@@ -1,8 +1,9 @@
 int cols, rows;
 int scl = 20;
-int w = 600;
-int h = 600;
+int w = 1200;
+int h = 1200;
 
+float camera = 0;
 float[][] terrain;
 
 void setup() {
@@ -10,16 +11,21 @@ void setup() {
   cols = w/ scl;
   rows = h/ scl;
   terrain = new float[cols][rows];
-   for (int y = 0; y < rows; y++) {
-     for (int x = 0; x < cols; x++) {
-       terrain[x][y] = random(-10, 10);
-     }
-   }
 }
 
 void draw() {
-  background(0);
-     stroke(255);
+  camera -= 0.05;
+  float yoff = camera;
+  for (int y = 0; y < rows; y++) {
+      float xoff = 0;
+     for (int x = 0; x < cols; x++) {
+       terrain[x][y] = map(noise(xoff, yoff), 0, 1, -70, 70) ;
+       xoff += 0.2;
+     }
+     yoff += 0.2;
+   }
+  background(255);
+     stroke(140, 180, 240);
      noFill();
      
      translate(width/2, height/2);
